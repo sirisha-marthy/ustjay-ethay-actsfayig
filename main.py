@@ -17,9 +17,15 @@ def get_fact():
     return facts[0].getText()
 
 
+def get_piglatinize_url(fact):
+    r =requests.post("https://hidden-journey-62459.herokuapp.com/piglatinize/", data = {'input_text' : fact},  allow_redirects=False)
+    return r.headers['Location']
+
 @app.route('/')
 def home():
-    return "FILL ME!"
+    fact = get_fact()
+    url = get_piglatinize_url(fact)
+    return  '{}<br><a href="{}">{}</a>'.format(fact, url, url)
 
 
 if __name__ == "__main__":
